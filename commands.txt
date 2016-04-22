@@ -1,0 +1,45 @@
+$HADOOP_HOME/2.7.2/bin/hadoop jar $HADOOP_HOME/2.7.2/libexec/share/hadoop/tools/lib/hadoop-streaming-2.7.2.jar \
+-Dmapreduce.job.maps=1 \
+-Dmapreduce.job.reduces=2 \
+-file map.py -mapper map.py  \
+-file reduce.py -reducer reduce.py \
+-input /mati/data/q4/green_tripdata_2015-11.csv -output /mati/PickupZipCodeTest
+
+hjs -Dmapreduce.job.maps=3 \
+-Dmapreduce.job.reduces=5 \
+-file map.py -mapper map.py  \
+-file reduce.py -reducer reduce.py \
+-file /home/mvp291/project/polygons/borough_polygons.json -file /home/mvp291/project/polygons/zipcode_polygons.json \
+-input /user/mvp291/taxi/q1 -output /user/mvp291/taxi/PickupQ1 && \
+hjs -Dmapreduce.job.maps=3 \
+-Dmapreduce.job.reduces=5 \
+-file map.py -mapper map.py  \
+-file reduce.py -reducer reduce.py \
+-file /home/mvp291/project/polygons/borough_polygons.json -file /home/mvp291/project/polygons/zipcode_polygons.json \
+-input /user/mvp291/taxi/q2 -output /user/mvp291/taxi/PickupQ2 && \
+hjs -Dmapreduce.job.maps=3 \
+-Dmapreduce.job.reduces=5 \
+-file map.py -mapper map.py  \
+-file reduce.py -reducer reduce.py \
+-file /home/mvp291/project/polygons/borough_polygons.json -file /home/mvp291/project/polygons/zipcode_polygons.json \
+-input /user/mvp291/taxi/q3 -output /user/mvp291/taxi/PickupQ3 && \
+hjs -Dmapreduce.job.maps=3 \
+-Dmapreduce.job.reduces=5 \
+-file map.py -mapper map.py  \
+-file reduce.py -reducer reduce.py \
+-file /home/mvp291/project/polygons/borough_polygons.json -file /home/mvp291/project/polygons/zipcode_polygons.json \
+-input /user/mvp291/taxi/q4 -output /user/mvp291/taxi/PickupQ4
+
+
+hadoop jar $HADOOP_HOME/hadoop-mapreduce/hadoop-streaming.jar \
+-Dmapreduce.job.maps=3 \
+-Dmapreduce.job.reduces=5 \
+-file map.py -mapper map.py  \
+-file reduce.py -reducer reduce.py \
+-input /user/mvp291/taxi/q1 -output /user/mvp291/taxi/PickupQ1
+
+curl https://storage.googleapis.com/tlc-trip-data/2015/green_tripdata_2015-10.csv > green_tripdata_2015-10.csv && \
+curl https://storage.googleapis.com/tlc-trip-data/2015/green_tripdata_2015-11.csv > green_tripdata_2015-11.csv && \
+curl https://storage.googleapis.com/tlc-trip-data/2015/green_tripdata_2015-12.csv > green_tripdata_2015-12.csv
+
+curl https://storage.googleapis.com/tlc-trip-data/2015/green_tripdata_2015-01.csv > green_tripdata_2015-01.csv
