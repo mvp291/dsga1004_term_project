@@ -7,7 +7,6 @@
       20: Indicator of source (Y|G)
       21: Pickup borough
       22: Pickup zip code
-    Author: Ma. Elena Villalobos Ponte
 """
 
 import sys
@@ -42,7 +41,6 @@ for line in sys.stdin:
   splitted = value.split(',')
   latitude, longitude = float(splitted[0]), float(splitted[1])
 
-  print len(splitted)
   all_attrs = splitted[2:]
   all_attrs_str = ','.join(all_attrs)
 

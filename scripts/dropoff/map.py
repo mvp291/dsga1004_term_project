@@ -1,12 +1,8 @@
 #!/usr/bin/python
 
 """
-    map.py Get raw data from yellow and green NYC Taxis and
-    1 - Translate pickup latitude longitude to borough
-    2 - Sort green taxi data columns to match yellow taxi data
-    3 - Include indicator of source
-      Y: yellow taxi data
-      G: green taxi data
+    map.py Get data from yellow and green NYC Taxis after processing pickup
+    1 - Translate dropoff latitude longitude to borough
 """
 
 import sys
@@ -36,8 +32,8 @@ for borough in borough_json['features']:
 borough_ids = range(45, 74) + range(4, 24) + range(24, 44) + range(0, 4) + range(74, 104)
 
 # Indexes of pickup latitude and longitude
-lat_ix = 5
-long_ix = 6
+lat_ix = 9
+long_ix = 10
 for line in sys.stdin:
   clean_line = line.replace('\r', '').replace('\n', '')
   splitted = clean_line.split(',')
@@ -47,23 +43,13 @@ for line in sys.stdin:
   except: # header line, ignore it
     continue
 
-  if len(splitted) == 19: # yellow taxi data
-    col_order = range(0, 19)
-    color = 'Y'
-  else: # green taxi data
-    col_order = [0, 1, 2, 9, 10, 5, 6, 4, 3, 7, 8, 19, 11, 12, 13, 17, 14, 15, 18]
-    color = 'G'
-
-  original_data = [splitted[i] for i in col_order]
-  output_data = ','.join(original_data)
-
   for i in borough_ids:
     coordinate = Point(longitude, latitude)
     correct = borough_polygons[i]['polygon'].contains(coordinate)
     if correct:
-      print "{0:s}\t{1:.9f},{2:.9f},{3:s},{4:s}".format(borough_polygons[i]['name'], latitude, longitude, output_data, color)
+      print "{0:s}\t{1:.9f},{2:.9f},{3:s}".format(borough_polygons[i]['name'], latitude, longitude, clean_line)
       break
 
   if not correct:
-    print "{0:s}\t{1:.9f},{2:.9f},{3:s},{4:s}".format('None', latitude, longitude, output_data, color)
+    print "{0:s}\t{1:.9f},{2:.9f},{3:s}".format('None', latitude, longitude, clean_line)
 
