@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/share/apps/python/2.7.11/bin/python
 
 """
     reduce.py Get raw data from yellow and green NYC Taxis where key is the borough
@@ -45,7 +45,7 @@ for line in sys.stdin:
   all_attrs_str = ','.join(all_attrs)
 
   if key == 'None':
-    print "{0:s},{1:s},{2:s}".format(all_attrs_str, 'None', 'None')
+    print "{0:s},{1:.9f},{2:.9f},{3:s},{4:s}".format(all_attrs_str, latitude, longitude, 'None', 'None')
     continue
 
   correct = False
@@ -55,11 +55,11 @@ for line in sys.stdin:
     for poly in nyc_polygons[key][zip_code]:
       correct = poly.contains(coordinate)
       if correct:
-        print "{0:s},{1:s},{2:s}".format(all_attrs_str, key, zip_code)
+        print "{0:s},{1:.9f},{2:.9f},{3:s},{4:s}".format(all_attrs_str, latitude, longitude, key, zip_code)
         break
     else:
       continue
     break
 
   if not correct:
-    print "{0:s},{1:s},{2:s}".format(all_attrs_str, key, 'None')
+    print "{0:s},{1:.9f},{2:.9f},{3:s},{4:s}".format(all_attrs_str, latitude, longitude, key, 'None')
