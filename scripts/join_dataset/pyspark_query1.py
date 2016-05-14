@@ -33,8 +33,9 @@ if __name__ == "__main__":
     # Left Join
     dataset = trip_values.leftOuterJoin(demog_values)
     dataset_f = dataset.filter(lambda x: x[1][1] != None)
+    data_output = dataset_f.map( lambda x: ( [i for i in x[1]][0]+","+[i for i in x[1]][1] ).encode('utf 8') ) 
 
-    data_output_f = dataset_f.map(lambda x: x.split(",") )
+    data_output_f = data_output.map(lambda x: x.split(",") )
     data_output_f = data_output_f.map(lambda x: x[0]+","+x[4]+","+x[14]+","+x[16]+","+x[19]+","+x[21]+","+x[22]+","+x[24]+","+x[25]+","+x[26]+","+x[27]+","+x[28]+","+x[29]+","+x[30]+","+x[31]+","+x[32]+","+x[33])
 
     output = data_output_f.coalesce(1).saveAsTextFile(sys.argv[1]+"_demog")
