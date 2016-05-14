@@ -24,8 +24,7 @@ def generate_cols(trip):
     except:
         trip_length = 'None'
 
-    #features_order = [1, 2, 3, 4, 5, 6, 9, 10, 11, 13, 15, 18, 19, 20, 21, 22, 23]
-    features_order = [1, 2, 3, 4, 5, 6, 9, 10, 11, 20, 22]
+    features_order = [1, 2, 3, 4, 5, 6, 9, 10, 11, 13, 15, 18, 19, 20, 21, 22, 23]
     values = ','.join([trip_length] + [features[i] for i in features_order])
     return values
 
