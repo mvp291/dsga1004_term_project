@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/bin/python
 
 """
     map.py Get data from yellow and green NYC Taxis after processing pickup
@@ -32,11 +32,13 @@ for borough in borough_json['features']:
 borough_ids = range(45, 74) + range(4, 24) + range(24, 44) + range(0, 4) + range(74, 104)
 
 # Indexes of pickup latitude and longitude
-lat_ix = 9
-long_ix = 10
+lat_ix = 6
+long_ix = 7
 for line in sys.stdin:
-  clean_line = line.replace('\r', '').replace('\n', '')
+  clean_line = line.replace('\r', '').replace('\n', '').replace('\t', '')
   splitted = clean_line.split(',')
+
+  all_attr = ",".join(splitted[:6] + splitted[8:])
 
   try:
     longitude, latitude = float(splitted[lat_ix]), float(splitted[long_ix])
@@ -47,9 +49,9 @@ for line in sys.stdin:
     coordinate = Point(longitude, latitude)
     correct = borough_polygons[i]['polygon'].contains(coordinate)
     if correct:
-      print "{0:s}\t{1:.9f},{2:.9f},{3:s}".format(borough_polygons[i]['name'], latitude, longitude, clean_line)
+      print "{0:s}\t{1:.9f},{2:.9f},{3:s}".format(borough_polygons[i]['name'], latitude, longitude, all_attr)
       break
 
   if not correct:
-    print "{0:s}\t{1:.9f},{2:.9f},{3:s}".format('None', latitude, longitude, clean_line)
+    print "{0:s}\t{1:.9f},{2:.9f},{3:s}".format('None', latitude, longitude, all_attr)
 

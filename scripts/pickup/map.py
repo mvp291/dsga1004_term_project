@@ -1,4 +1,4 @@
-#!/share/apps/python/2.7.11/bin/python
+#!/bin/python
 
 """
     map.py Get raw data from yellow and green NYC Taxis and

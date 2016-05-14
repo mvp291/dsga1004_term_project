@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/bin/python
 
 """
     reduce.py Get data from yellow and green NYC Taxis where key is the borough
@@ -36,12 +36,10 @@ for zip_area in zipcode_json['features']:
     nyc_polygons[borough][zip_code].append(poly)
 
 for line in sys.stdin:
-  print line.replace('\r', '').replace('\n', '').split('\t')
   key, value = line.replace('\r', '').replace('\n', '').split('\t')
   splitted = value.split(',')
   latitude, longitude = float(splitted[0]), float(splitted[1])
 
-  print len(splitted)
   all_attrs = splitted[2:]
   all_attrs_str = ','.join(all_attrs)
 
@@ -56,11 +54,11 @@ for line in sys.stdin:
     for poly in nyc_polygons[key][zip_code]:
       correct = poly.contains(coordinate)
       if correct:
-        print "{0:s},{1:s},{2:s}".format(all_attrs_str, key, zip_code)
+        print "{0:s},{1:.9f},{2:.9f},{3:s},{4:s}".format(all_attrs_str, latitude, longitude, key, zip_code)
         break
     else:
       continue
     break
 
   if not correct:
-    print "{0:s},{1:s},{2:s}".format(all_attrs_str, key, 'None')
+    print "{0:s},{1:.9f},{2:.9f},{3:s},{4:s}".format(all_attrs_str, latitude, longitude, key, 'None')
